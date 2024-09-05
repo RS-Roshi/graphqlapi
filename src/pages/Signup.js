@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
@@ -20,7 +19,7 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [signup] = useMutation(SIGNUP_MUTATION);
+  const [signup, { loading, error }] = useMutation(SIGNUP_MUTATION);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -28,7 +27,7 @@ function SignUp() {
     try {
       const { data } = await signup({ variables: { email, password, name } });
       localStorage.setItem('authToken', data.signup.token); // Save token in local storage
-      navigate('/product-list'); // Redirect to the product list page
+      navigate('/countries'); // Redirect to the product list page
     } catch (error) {
       console.error("Error signing up", error.message);
     }
@@ -62,9 +61,15 @@ function SignUp() {
           className="block w-full mb-4 p-2 border border-gray-300 rounded"
           required
         />
+
+        {/* Display loading or error messages */}
+        {loading && <p>Signing up...</p>}
+        {error && <p className="text-red-500">Error: {error.message}</p>}
+
         <button
           type="submit"
           className="w-full py-2 bg-blue-500 text-white rounded"
+          disabled={loading}
         >
           Sign Up
         </button>

@@ -1,13 +1,13 @@
-import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import React from "react";
+import { useQuery, gql } from "@apollo/client";
 import {
   Container,
   Typography,
   CircularProgress,
   Box,
-  Chip
-} from '@mui/material';
-import { styled } from '@mui/system';
+  Chip,
+} from "@mui/material";
+import { styled } from "@mui/system";
 
 // Define styled components
 const StyledContainer = styled(Container)(({ theme }) => ({
@@ -15,28 +15,30 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 }));
 
 const LoadingContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height: '100vh',
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
 }));
 
 const Heading = styled(Typography)(({ theme }) => ({
-  textAlign: 'center',
+  textAlign: "center",
   marginBottom: theme.spacing(4),
+  color: "#ffffff",
 }));
 
 const CountryListContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'center',
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "center",
   gap: theme.spacing(2),
   padding: theme.spacing(2),
 }));
 
 const CountryChip = styled(Chip)(({ theme }) => ({
-  background: 'linear-gradient(135deg, rgba(15, 20, 25, 0.9), rgba(25, 29, 34, 0.9))',
-  color: 'white',
+  background:
+    "linear-gradient(135deg, rgba(15, 20, 25, 0.9), rgba(25, 29, 34, 0.9))",
+  color: "white",
   padding: theme.spacing(1),
 }));
 
@@ -59,19 +61,20 @@ function ProductList() {
         <CircularProgress />
       </LoadingContainer>
     );
-  if (error) return <Typography color="error">Error: {error.message}</Typography>;
+  if (error)
+    return <Typography color="error">Error: {error.message}</Typography>;
 
   return (
     <StyledContainer>
       <Heading variant="h4">Country List</Heading>
-      <CountryListContainer>
+      <CountryListContainer style={{ height: "500px", overflow: "auto" }}>
         {data.countries.map((country) => (
           <CountryChip
             key={country.code}
             label={country.name}
             clickable
             component="a"
-            href={`/country/${country.code}`}
+            href={`/countries/${country.code}`}
           />
         ))}
       </CountryListContainer>
